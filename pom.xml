@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.jedaev</groupId>
-	<artifactId>lomonosov</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+    <groupId>io.jedaev</groupId>
+    <artifactId>lomonosov</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-	<name>lomonosov</name>
-	<description>Demo project for Spring Boot</description>
+    <name>lomonosov</name>
+    <description>Demo project for Spring Boot</description>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jooq</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -41,20 +41,66 @@
         </dependency>
 
         <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- The jOOQ code generator plugin -->
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-psql</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <jdbc>
+                                <driver>org.postgresql.Driver</driver>
+                                <url>jdbc:postgresql://127.0.0.1:5432/lomonosov</url>
+                                <user>postgres</user>
+                                <password>postgres</password>
+                            </jdbc>
+                            <generator>
+                                <database>
+                                    <name>org.jooq.util.postgres.PostgresDatabase</name>
+                                    <includes>.*</includes>
+                                    <excludes></excludes>
+                                    <inputSchema>public</inputSchema>
+                                </database>
+                                <generate>
+                                    <records>true</records>
+                                </generate>
+                                <target>
+                                    <packageName>io.jedaev.lomonosov.db</packageName>
+                                    <directory>src/main/java</directory>
+                                </target>
+                            </generator>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>9.4.1212</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>
