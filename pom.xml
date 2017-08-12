@@ -55,44 +55,55 @@
             </plugin>
 
             <!-- The jOOQ code generator plugin -->
-            <plugin>
-                <groupId>org.jooq</groupId>
-                <artifactId>jooq-codegen-maven</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-psql</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <jdbc>
-                                <driver>org.postgresql.Driver</driver>
-                                <url>jdbc:postgresql://127.0.0.1:5432/lomonosov</url>
-                                <user>postgres</user>
-                                <password>postgres</password>
-                            </jdbc>
-                            <generator>
-                                <database>
-                                    <name>org.jooq.util.postgres.PostgresDatabase</name>
-                                    <includes>.*</includes>
-                                    <excludes></excludes>
-                                    <inputSchema>public</inputSchema>
-                                </database>
-                                <generate>
-                                    <records>true</records>
-                                </generate>
-                                <target>
-                                    <packageName>io.jedaev.lomonosov.db</packageName>
-                                    <directory>src/main/java</directory>
-                                </target>
-                            </generator>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>jooq-models-generate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-psql</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <jdbc>
+                                        <driver>org.postgresql.Driver</driver>
+                                        <url>jdbc:postgresql://127.0.0.1:5432/lomonosov</url>
+                                        <user>postgres</user>
+                                        <password>postgres</password>
+                                    </jdbc>
+                                    <generator>
+                                        <database>
+                                            <name>org.jooq.util.postgres.PostgresDatabase</name>
+                                            <includes>.*</includes>
+                                            <excludes>
 
+                                            </excludes>
+                                            <inputSchema>public</inputSchema>
+                                        </database>
+                                        <generate>
+                                            <records>true</records>
+                                        </generate>
+                                        <target>
+                                            <packageName>io.jedaev.lomonosov.model</packageName>
+                                            <directory>src/main/java</directory>
+                                        </target>
+                                    </generator>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
