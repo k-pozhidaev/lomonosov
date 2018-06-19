@@ -32,7 +32,7 @@
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
                 <type>jar</type>
-                <scope>runtime</scope>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
