@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.nio.charset.Charset;
+
 @Slf4j
 @Service
 public class Yad2CrawlerScheduledTask {
@@ -27,7 +29,9 @@ public class Yad2CrawlerScheduledTask {
             var client = WebClient.create("http://www.yad2.co.il");
             client.get()
                     .uri("/Nadlan/rent.php?AreaID=&City=&HomeTypeID=1&fromRooms=4&untilRooms=5.5&fromPrice=&untilPrice=&PriceType=1&FromFloor=&ToFloor=&EnterDate=&Info=")
-                    .accept(MediaType.TEXT_HTML)
+                    .accept(MediaType.TEXT_HTML, MediaType.IMAGE_PNG, MediaType.APPLICATION_XML, MediaType.APPLICATION_XHTML_XML)
+                    .acceptCharset(Charset.forName("windows-1255"))
+                    .headers(httpHeaders -> httpHeaders.set("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1"))
                     .retrieve()
                     .bodyToMono(String.class)
                     .doOnSuccess(this::parsePage)
