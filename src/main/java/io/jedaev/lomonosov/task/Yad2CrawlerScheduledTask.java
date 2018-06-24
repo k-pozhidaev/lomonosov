@@ -3,16 +3,12 @@ package io.jedaev.lomonosov.task;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.reactivestreams.Publisher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Signal;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -44,8 +40,22 @@ public class Yad2CrawlerScheduledTask {
                     .flatMapIterable(this::parsePage)
                     .map(this::eachLog)
                     .subscribe();
+//            AreaID:
+//            City:
+//            HomeTypeID:
+//            fromRooms:
+//            untilRooms: 5.5
+//            fromPrice:
+//            untilPrice:
+//            PriceType: 1
+//            FromFloor:
+//            ToFloor:
+//            EnterDate:
+//            Info:
+//            Page: 55
         };
     }
+
 
     private List<Element> parsePage(final String htmlPage){
         var doc = Jsoup.parse(htmlPage);
