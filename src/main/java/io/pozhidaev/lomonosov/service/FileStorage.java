@@ -1,6 +1,6 @@
-package io.jedaev.lomonosov.service;
+package io.pozhidaev.lomonosov.service;
 
-import io.jedaev.lomonosov.exception.DirectoryCreationFailedException;
+import io.pozhidaev.lomonosov.exception.DirectoryCreationFailedException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

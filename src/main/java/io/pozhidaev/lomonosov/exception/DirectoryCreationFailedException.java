@@ -1,4 +1,4 @@
-package io.jedaev.lomonosov.exception;
+package io.pozhidaev.lomonosov.exception;
 
 public class DirectoryCreationFailedException extends RuntimeException {
     public DirectoryCreationFailedException() {
