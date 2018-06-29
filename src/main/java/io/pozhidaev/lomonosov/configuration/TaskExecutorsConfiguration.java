@@ -1,4 +1,4 @@
-package io.jedaev.lomonosov.configuration;
+package io.pozhidaev.lomonosov.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

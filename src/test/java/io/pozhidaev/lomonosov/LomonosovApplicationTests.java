@@ -1,4 +1,4 @@
-package io.jedaev.lomonosov;
+package io.pozhidaev.lomonosov;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
