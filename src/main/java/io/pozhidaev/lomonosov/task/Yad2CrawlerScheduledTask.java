@@ -5,7 +5,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -33,9 +31,10 @@ public class Yad2CrawlerScheduledTask {
                         httpHeaders -> {
                             httpHeaders.set(HttpHeaders.HOST, "www.yad2.co.il");
                             httpHeaders.set(HttpHeaders.PRAGMA, "no-cache");
-                            httpHeaders.set(HttpHeaders.USER_AGENT, "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1");
+                            httpHeaders.set(HttpHeaders.USER_AGENT, " Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
                             httpHeaders.set(HttpHeaders.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                            httpHeaders.setAcceptCharset(Charset.forName("windows-1255");
+                            httpHeaders.setAcceptCharset(List.of(Charset.forName("windows-1255")));
+                            httpHeaders.setConnection("keep-alive");
                         }
                 )
                 .build();
@@ -46,32 +45,30 @@ public class Yad2CrawlerScheduledTask {
 //        log.info("getPagesNum");
     }
 
+    //Nadlan/rentDetails.php?NadlanID=3501376&SubCatID=2
+
     @Bean
     CommandLineRunner c(){
-        return args -> {
-            log.info("Started --------------------");
-
+        return args ->
             client.get()
-                    .uri(b -> {
-                        URI build = b
-                                .path("Nadlan/rent.php")
-                                .queryParam("AreaID", "")
-                                .queryParam("City", "")
-                                .queryParam("HomeTypeID", "")
-                                .queryParam("fromRooms", 3.5)
-                                .queryParam("untilRooms", 5.5)
-                                .queryParam("fromPrice", "")
-                                .queryParam("untilPrice", "")
-                                .queryParam("PriceType", 1)
-                                .queryParam("FromFloor", "")
-                                .queryParam("ToFloor", "")
-                                .queryParam("EnterDate", "")
-                                .queryParam("Info", "")
-//                                .queryParam("Page", 2)
-                                .build();
-                        log.info(build.toString());
-                        return build;
-                    })
+                    .uri(b -> b
+                            .path("Nadlan/rent.php")
+                            .queryParam("AreaID", 0)
+                            .queryParam("City", "")
+                            .queryParam("HomeTypeID", "")
+                            .queryParam("fromRooms", 3.5)
+                            .queryParam("untilRooms", 5.5)
+                            .queryParam("fromPrice", "")
+                            .queryParam("untilPrice", "")
+                            .queryParam("PriceType", 1)
+                            .queryParam("FromFloor", "")
+                            .queryParam("ToFloor", "")
+                            .queryParam("EnterDate", "")
+                            .queryParam("Info", "")
+                            .queryParam("Page", 2)
+                            .queryParam("PriceOnly", 1)
+                            .queryParam("ImgOnly", 1)
+                            .build())
                     .accept(MediaType.TEXT_HTML, MediaType.IMAGE_PNG, MediaType.APPLICATION_XML, MediaType.APPLICATION_XHTML_XML)
                     .retrieve()
                     .onStatus(
@@ -93,44 +90,22 @@ public class Yad2CrawlerScheduledTask {
                     .map(this::eachLog)
                     .subscribe();
 
-//            AreaID:
-//            City:
-//            HomeTypeID:
-//            fromRooms:
-//            untilRooms: 5.5
-//            fromPrice:
-//            untilPrice:
-//            PriceType: 1
-//            FromFloor:
-//            ToFloor:
-//            EnterDate:
-//            Info:
-//            Page: 55
-        };
     }
 
 
     private List<Element> parsePage(final String htmlPage){
         log.info("First Parse");
-        log.info(htmlPage);
         var doc = Jsoup.parse(htmlPage);
         return doc.getElementsByAttributeValueContaining("id", "tr_Ad_");
     }
 
     private List<Element> eachLog(final List<Element> elements){
-        log.info("Second parse, num {}", elements.size());
-
+        log.info("Second parse, elements num {}", elements.size());
         elements.forEach(e -> {
             log.info(e.id());
-            log.info(e.toString());
+//            log.info(e.toString());
         });
         return elements;
-    }
-
-    private Element eachLog(final Element element){
-        log.info(element.attr("id"));
-        log.info(element.toString());
-        return element;
     }
 
 
