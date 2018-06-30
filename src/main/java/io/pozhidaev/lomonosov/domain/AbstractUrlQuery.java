@@ -1,17 +1,30 @@
 package io.pozhidaev.lomonosov.domain;
 
-import lombok.Data;
-
 import java.util.List;
+import java.util.Optional;
 
 abstract class AbstractUrlQuery {
 
-    protected List<UrlQueryNode> nodes;
+    String path;
+    transient List<UrlQueryNode> nodes;
 
-    @Data
     class UrlQueryNode{
-        private Boolean optional;
-        private String name;
-        private Object value;
+
+        private final Boolean isOptional;
+        private final String name;
+        private final String value;
+
+        public UrlQueryNode(Boolean isOptional, String name, String value) {
+            this.isOptional = Optional.ofNullable(isOptional).orElse(false);
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getValue(){
+            if ("0".equals(value)) {
+                return "";
+            }
+            return Optional.ofNullable(value).orElse("");
+        }
     }
 }
