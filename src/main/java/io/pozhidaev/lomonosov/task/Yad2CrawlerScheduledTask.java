@@ -35,7 +35,6 @@ public class Yad2CrawlerScheduledTask {
                             httpHeaders.set(HttpHeaders.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
                             httpHeaders.setAcceptCharset(List.of(Charset.forName("windows-1255")));
                             httpHeaders.setConnection("keep-alive");
-
                         }
                 )
                 .defaultCookies(stringStringMultiValueMap -> {
