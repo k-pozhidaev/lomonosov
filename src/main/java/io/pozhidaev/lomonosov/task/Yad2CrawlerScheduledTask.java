@@ -1,5 +1,6 @@
 package io.pozhidaev.lomonosov.task;
 
+import io.pozhidaev.lomonosov.domain.RentUrlQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -93,24 +94,32 @@ public class Yad2CrawlerScheduledTask {
     }
 
     private URI buildUri(final UriBuilder uriBuilder) {
-        final URI uri = uriBuilder
-                .path("Nadlan/rent.php")
-                .queryParam("AreaID", "")
-                .queryParam("City", "")
-                .queryParam("HomeTypeID", "")
-                .queryParam("fromRooms", 3.5)
-                .queryParam("untilRooms", 5.5)
-                .queryParam("fromPrice", "")
-                .queryParam("untilPrice", "")
-                .queryParam("PriceType", 1)
-                .queryParam("FromFloor", "")
-                .queryParam("ToFloor", "")
-                .queryParam("EnterDate", "")
-                .queryParam("Info", "")
-                .queryParam("Page", 1)
-                .queryParam("PriceOnly", 1)
-                .queryParam("ImgOnly", 1)
-                .build();
+//        final URI uri = uriBuilder
+//                .path("Nadlan/rent.php")
+//                .queryParam("AreaID", "")
+//                .queryParam("City", "")
+//                .queryParam("HomeTypeID", "")
+//                .queryParam("fromRooms", 3.5)
+//                .queryParam("untilRooms", 5.5)
+//                .queryParam("fromPrice", "")
+//                .queryParam("untilPrice", "")
+//                .queryParam("PriceType", 1)
+//                .queryParam("FromFloor", "")
+//                .queryParam("ToFloor", "")
+//                .queryParam("EnterDate", "")
+//                .queryParam("Info", "")
+//                .queryParam("Page", 1)
+//                .queryParam("PriceOnly", 1)
+//                .queryParam("ImgOnly", 1)
+//                .build();
+        final URI uri = RentUrlQuery.builder()
+                .fromRooms(3.5F)
+                .untilPrice(5.5F)
+                .priceOnly(1)
+                .priceType(1)
+                .imgOnly(1)
+                .build()
+                .generateUrl(uriBuilder);
         log.info(uri.toString());
         return uri;
     }

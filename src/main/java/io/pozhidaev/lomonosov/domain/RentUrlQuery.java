@@ -47,21 +47,21 @@ public class RentUrlQuery extends AbstractUrlQuery{
     private void init() {
         this.path = "Nadlan/rent.php";
         this.nodes = List.of(
-                new UrlQueryNode(false, "AreaID", areaId.toString()),
+                new UrlQueryNode(false, "AreaID", areaId),
                 new UrlQueryNode(false, "City", city),
-                new UrlQueryNode(false, "HomeTypeID", homeTypeId.toString()),
-                new UrlQueryNode(false, "fromRooms", fromRooms.toString()),
-                new UrlQueryNode(false, "untilRooms", untilRooms.toString()),
-                new UrlQueryNode(false, "fromPrice", fromPrice.toString()),
-                new UrlQueryNode(false, "untilPrice", untilPrice.toString()),
-                new UrlQueryNode(false, "PriceType", priceType.toString()),
-                new UrlQueryNode(false, "FromFloor", fromFloor.toString()),
-                new UrlQueryNode(false, "ToFloor", toFloor.toString()),
+                new UrlQueryNode(false, "HomeTypeID", homeTypeId),
+                new UrlQueryNode(false, "fromRooms", fromRooms),
+                new UrlQueryNode(false, "untilRooms", untilRooms),
+                new UrlQueryNode(false, "fromPrice", fromPrice),
+                new UrlQueryNode(false, "untilPrice", untilPrice),
+                new UrlQueryNode(false, "PriceType", priceType),
+                new UrlQueryNode(false, "FromFloor", fromFloor),
+                new UrlQueryNode(false, "ToFloor", toFloor),
                 new UrlQueryNode(false, "EnterDate", enterDate),
                 new UrlQueryNode(false, "Info", info),
-                new UrlQueryNode(true, "Page", page.toString()),
-                new UrlQueryNode(true, "PriceOnly", priceOnly.toString()),
-                new UrlQueryNode(true, "ImgOnly", imgOnly.toString())
+                new UrlQueryNode(true, "Page", page),
+                new UrlQueryNode(true, "PriceOnly", priceOnly),
+                new UrlQueryNode(true, "ImgOnly", imgOnly)
         );
     }
 }
