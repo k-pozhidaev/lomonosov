@@ -42,8 +42,6 @@ public class RentUrlQuery extends AbstractUrlQuery{
         init();
     }
 
-
-
     private void init() {
         this.path = "Nadlan/rent.php";
         this.nodes = List.of(

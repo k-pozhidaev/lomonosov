@@ -5,3 +5,7 @@ spring:
     password: postgres
   jooq:
     sql-dialect: postgres_9_5
+logging:
+  level:
+    root: warn
+    io.pozhidaev.lomonosov: trace

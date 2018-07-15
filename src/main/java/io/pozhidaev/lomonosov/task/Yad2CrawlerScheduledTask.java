@@ -63,8 +63,8 @@ public class Yad2CrawlerScheduledTask {
                             .headers()
                             .asHttpHeaders()
                             .forEach((key, value) -> {
-                                log.info(key);
-                                log.info(String.join(", ", value));
+                                log.trace(key);
+                                log.trace(String.join(", ", value));
                             });
                     log.error("Some server problem: {}",
                             clientResponse.statusCode().toString());
@@ -79,48 +79,29 @@ public class Yad2CrawlerScheduledTask {
 
 
     private List<Element> parsePage(final String htmlPage) {
-//        log.info("First Parse, {}", htmlPage);
         var doc = Jsoup.parse(htmlPage);
         return doc.getElementsByAttributeValueContaining("id", "tr_Ad_");
     }
 
     private List<Element> eachLog(final List<Element> elements) {
-        log.info("Second parse, elements num {}", elements.size());
+        log.trace("Second parse, elements num {}", elements.size());
         elements.forEach(e -> {
-            log.info(e.id());
+            log.trace(e.id());
 //            log.info(e.toString());
         });
         return elements;
     }
 
     private URI buildUri(final UriBuilder uriBuilder) {
-//        final URI uri = uriBuilder
-//                .path("Nadlan/rent.php")
-//                .queryParam("AreaID", "")
-//                .queryParam("City", "")
-//                .queryParam("HomeTypeID", "")
-//                .queryParam("fromRooms", 3.5)
-//                .queryParam("untilRooms", 5.5)
-//                .queryParam("fromPrice", "")
-//                .queryParam("untilPrice", "")
-//                .queryParam("PriceType", 1)
-//                .queryParam("FromFloor", "")
-//                .queryParam("ToFloor", "")
-//                .queryParam("EnterDate", "")
-//                .queryParam("Info", "")
-//                .queryParam("Page", 1)
-//                .queryParam("PriceOnly", 1)
-//                .queryParam("ImgOnly", 1)
-//                .build();
         final URI uri = RentUrlQuery.builder()
                 .fromRooms(3.5F)
-                .untilPrice(5.5F)
+                .untilRooms(5.5F)
                 .priceOnly(1)
                 .priceType(1)
                 .imgOnly(1)
                 .build()
                 .generateUrl(uriBuilder);
-        log.info(uri.toString());
+        log.trace(uri.toString());
         return uri;
     }
 
