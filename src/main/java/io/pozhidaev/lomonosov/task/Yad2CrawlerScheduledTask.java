@@ -1,9 +1,11 @@
 package io.pozhidaev.lomonosov.task;
 
 import io.pozhidaev.lomonosov.domain.RentUrlQuery;
+import io.pozhidaev.lomonosov.service.Yad2;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,26 +25,8 @@ public class Yad2CrawlerScheduledTask {
 
     private WebClient client;
 
-    private Yad2CrawlerScheduledTask() {
-
-        this.client = WebClient
-                .builder()
-                .baseUrl("http://www.yad2.co.il")
-                .defaultHeaders(
-                        httpHeaders -> {
-                            httpHeaders.set(HttpHeaders.HOST, "www.yad2.co.il");
-                            httpHeaders.set(HttpHeaders.PRAGMA, "no-cache");
-                            httpHeaders.set(HttpHeaders.USER_AGENT, " Mozilla/5.0 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
-                            httpHeaders.set(HttpHeaders.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-                            httpHeaders.setAcceptCharset(List.of(Charset.forName("windows-1255")));
-                            httpHeaders.setConnection("keep-alive");
-                        }
-                )
-                .defaultCookies(stringStringMultiValueMap -> {
-                    stringStringMultiValueMap.add("PHPSESSID", "e1ubc5osetcu2m29q88vpemaf7");
-                })
-
-                .build();
+    private Yad2CrawlerScheduledTask(@Autowired final Yad2 yad2) {
+        this.client = yad2.createClient();
     }
 
     @Scheduled(fixedDelay = 5000)
@@ -70,6 +54,7 @@ public class Yad2CrawlerScheduledTask {
                             clientResponse.statusCode().toString());
                     return Mono.empty();
                 })
+
                 .bodyToMono(String.class)
                 .map(this::parsePage)
                 .map(this::eachLog)
