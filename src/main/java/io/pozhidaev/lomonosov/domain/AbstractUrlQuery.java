@@ -1,11 +1,14 @@
 package io.pozhidaev.lomonosov.domain;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.util.UriBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 abstract class AbstractUrlQuery {
 
     String path;
@@ -15,6 +18,8 @@ abstract class AbstractUrlQuery {
 
         uriBuilder.path(Optional.ofNullable(path).orElseThrow(() -> new RuntimeException("Path cannot be null.")));
         Optional.ofNullable(nodes).orElseThrow(() -> new RuntimeException("Nodes cannot be null"))
+                .stream()
+                .filter(v -> !v.getOptional() || "".equals(v.getValue()) )
                 .forEach(n -> uriBuilder.queryParam(n.name, n.getValue()));
         return uriBuilder.build();
 
@@ -32,13 +37,16 @@ abstract class AbstractUrlQuery {
             this.value = value;
         }
 
+        Boolean getOptional() {
+            return isOptional;
+        }
+
         String getValue(){
-            if ("0".equals(value)) {
-                return "";
-            }
             return Optional.ofNullable(value)
-                    .orElse("")
-                    .toString();
+                    .map(Object::toString)
+                    .filter(v -> !"0.0".equals(v))
+                    .filter(v -> !"0".equals(v))
+                    .orElse("");
         }
     }
 }
