@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "lomonosov.chrome-bin-path",
+      "type": "java.lang.String",
+      "description": "Path to Chrome browser binary executor.",
+      "defaultValue": "google-chrome-stable"
+    }
+  ]
+}
