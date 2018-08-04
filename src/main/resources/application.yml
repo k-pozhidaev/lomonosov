@@ -12,4 +12,4 @@ logging:
     root: warn
     io.pozhidaev.lomonosov: info
 lomonosov:
-  chrome-bin-path: "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+  chrome-bin-path: chrome
