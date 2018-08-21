@@ -28,7 +28,7 @@ public class Yad2CrawlerScheduledTask {
     }
 
     @Scheduled(fixedDelay = 5000)
-    public void getPagesNum() {
+    public void getPagesNum1() {
         client.get()
                 .uri(this::buildUri)
                 .accept(MediaType.TEXT_HTML, MediaType.IMAGE_PNG, MediaType.APPLICATION_XML, MediaType.APPLICATION_XHTML_XML)
